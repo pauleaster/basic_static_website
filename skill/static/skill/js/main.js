@@ -1,0 +1,1 @@
+alert("This is the main skill js file")
