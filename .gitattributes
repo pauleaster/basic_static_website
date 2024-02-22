@@ -1,0 +1,26 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files to be normalized with LF.
+*.py text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+README text eol=lf
+
+# Ensure that `manage.py` has LF line endings and is executable.
+manage.py text eol=lf
+manage.py script executable
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Declare files that will always be binary.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary
