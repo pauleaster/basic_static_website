@@ -1,3 +1,4 @@
+// static/js/scripts.js
 /*!
 * Start Bootstrap - Agency v7.0.6 (https://startbootstrap.com/theme/agency)
 * Copyright 2013-2021 Start Bootstrap
@@ -50,5 +51,23 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         });
     });
+
+    // Custom code for contact form submission
+    var contactForm = document.getElementById("contactForm");
+    if (contactForm) {
+        contactForm.addEventListener("submit", function(e) {
+            // Prevent the form from submitting
+            e.preventDefault();
+
+            // Log the values
+            console.log("Name:", document.getElementById('name').value);
+            console.log("Email:", document.getElementById('email').value);
+            console.log("Phone:", document.getElementById('phone').value);
+            console.log("Phone:", document.getElementById('message').value);
+
+            // Proceed with the form submission if needed
+            this.submit(); // Uncomment this line to allow the form to submit after logging
+        });
+    }
 
 });
