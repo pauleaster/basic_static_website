@@ -9,3 +9,7 @@ media
 *.code-workspace
 .vscode
 venv
+
+staticfiles
+
+.env
