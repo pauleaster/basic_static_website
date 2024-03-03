@@ -70,49 +70,4 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    // Custom code for AJAX contact form submission
-var contactForm = document.getElementById("contactForm");
-if (contactForm) {
-    contactForm.addEventListener("submit", function(e) {
-        e.preventDefault(); // Prevent the form from submitting normally
-
-        // FormData object to hold the form data
-        var formData = new FormData(this);
-
-        // Fetch API to submit form data via AJAX
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest', // Necessary for Django to recognize it as an AJAX request
-                // 'X-CSRFToken': csrfToken, // Add CSRF token here if not using FormData for CSRF
-            },
-        })
-        .then(response => response.json()) // Assuming the server responds with JSON
-        .then(data => {
-            // Handle the response data
-            console.log(data.message); // Log the success message
-            // Optionally, display the message to the user in the UI
-            const formResponse = document.getElementById('formResponse');
-            if (formResponse) {
-                formResponse.innerText = data.message;
-                formResponse.classList.remove('d-none'); // Make sure to show the message if it was hidden
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Optionally, inform the user that an error occurred
-            const formResponse = document.getElementById('formResponse');
-            if (formResponse) {
-                formResponse.innerText = 'An error occurred. Please try again.';
-                formResponse.classList.remove('d-none'); // Show the message if it was hidden
-            }
-        });
-
-        // Prevent form from submitting normally
-        return false;
-    });
-}
-
-
 });

@@ -30,9 +30,9 @@ urlpatterns = [
                 path("skill/", include("skill.urls")),
                 path("admin/", admin.site.urls),
                 path(
-                    "functions/submit_contact_form",
-                    views.submit_contact_form,
-                    name="submit_contact_form",
+                    "functions/handle_contact_form",
+                    views.handle_contact_form,
+                    name="handle_contact_form",
                 ),
             ]
         ),
