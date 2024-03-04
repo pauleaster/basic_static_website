@@ -29,11 +29,15 @@ urlpatterns = [
                 path("", views.index, name="index"),
                 path("skill/", include("skill.urls")),
                 path("admin/", admin.site.urls),
+                path('accounts/', include('django.contrib.auth.urls')), 
                 path(
                     "functions/handle_contact_form",
                     views.handle_contact_form,
                     name="handle_contact_form",
                 ),
+                path("oauth/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+                path("functions/login", views.login_view, name="login"),
+                path("oauth/callback/", views.oauth_callback, name="oauth_callback"),
             ]
         ),
     ),

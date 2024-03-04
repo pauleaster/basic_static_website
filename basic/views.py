@@ -1,5 +1,6 @@
 # basic/views.py
 
+from urllib.parse import urlencode
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
@@ -43,3 +44,51 @@ def handle_contact_form(request):
         form = ContactForm()
 
     return render(request, 'index.html', {'form': form})
+
+def login_view(request):
+    auth_url_base = "http://localhost:8000/django/oauth/authorize/"
+    params = {
+        "response_type": "code",
+        "client_id": settings.BASIC_OAUTH_CLIENT_ID,
+        "redirect_uri": settings.BASIC_OAUTH_REDIRECT_URI,
+    }
+    
+    # Construct full authorization URL
+    full_auth_url = f"{auth_url_base}?{urlencode(params)}"
+    print(f"Full auth URL:\n {full_auth_url}")
+
+    # Pass the full authorization URL to the template
+    context = {'auth_url': full_auth_url}
+    return render(request, 'login.html', context)
+
+def oauth_callback(request):
+    code = request.GET.get('code')
+    error = request.GET.get('error')
+    print(f"Code: {code}, Error: {error}")
+
+    if error:
+        # Handle the error case appropriately.
+        return JsonResponse({'error': error})
+
+    if code:
+        # Exchange the authorization code for an access token.
+        token_url = 'http://localhost:8000/django/oauth/token/'
+        data = {
+            'grant_type': 'authorization_code',
+            'code': code,
+            'client_id': settings.BASIC_OAUTH_CLIENT_ID,
+            'client_secret': settings.BASIC_OAUTH_CLIENT_SECRET,  # Assumes you've added this to your settings
+            'redirect_uri': settings.BASIC_OAUTH_REDIRECT_URI,  # Make sure this is consistent
+        }
+        response = requests.post(token_url, data=data)
+
+        if response.status_code == 200:
+            # Handle success - you might want to store the access token, depending on your application's needs
+            access_token = response.json().get('access_token')
+            return JsonResponse({'access_token': access_token})
+        else:
+            # Handle failure to obtain access token
+            return JsonResponse({'error': 'Failed to retrieve access token'}, status=response.status_code)
+
+    # If no code or error is provided, it's an unexpected state.
+    return JsonResponse({'error': 'No authorization code provided'}, status=400)
